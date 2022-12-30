@@ -1,5 +1,5 @@
 {
-  "name": "d3/dicontainerhandler",
+  "name": "d3/oxid-dic-handler",
   "description": "Provides bridges for OXID services that are not reliably listed in the DIC cache.",
   "type": "library",
   "keywords": [

@@ -15,12 +15,9 @@
 
 namespace D3\DIContainerHandler;
 
-use D3\ModCfg\Application\Model\Modulemetadata\d3moduleconfiguration;
-use d3CacheContainer;
+use d3DIContainerCache;
 use Exception;
-use OxidEsales\Eshop\Core\Module\ModuleList;
 use OxidEsales\Eshop\Core\Registry;
-use OxidEsales\Eshop\Core\Request;
 use OxidEsales\Facts\Config\ConfigFile;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -102,12 +99,12 @@ class d3DicHandler implements d3DicHandlerInterface
     }
 
     /**
-     * @return d3CacheContainer|object
+     * @return d3DIContainerCache|object
      */
     public function d3GetCacheContainer()
     {
         require_once $this->d3GetCacheFilePath();
-        return oxNew(d3CacheContainer::class);
+        return oxNew(d3DIContainerCache::class);
     }
 
     /**
@@ -132,7 +129,8 @@ class d3DicHandler implements d3DicHandlerInterface
     {
         $loader = $this->d3GetFileLoader($container);
 
-        foreach ($this->getShopDefinitionFiles() as $file) {
+        $fileContainer = oxNew(definitionFileContainer::class);
+        foreach ($fileContainer->getYamlDefinitions() as $file) {
             $fullPath = $this->d3GetConfig()->getModulesDir().$file;
             if (is_file($fullPath)) {
                 $loader->load($file);
@@ -165,7 +163,7 @@ class d3DicHandler implements d3DicHandlerInterface
 
                 if (false == defined('OXID_PHP_UNIT')) {
                     $dumper = new PhpDumper($container);
-                    file_put_contents($this->d3GetCacheFilePath(), $dumper->dump(array('class' => 'd3CacheContainer')));
+                    file_put_contents($this->d3GetCacheFilePath(), $dumper->dump(array('class' => 'd3DIContainerCache')));
                 }
             }
         }
@@ -178,62 +176,6 @@ class d3DicHandler implements d3DicHandlerInterface
     public function getContainerBuilder()
     {
         return oxNew(ContainerBuilder::class);
-    }
-
-    /**
-     * @return array
-     */
-    public function getShopDefinitionFiles()
-    {
-        return $this->getDefinitionFiles('d3DICDefinitionFiles');
-    }
-
-    /**
-     * @param $sMetaDataIdent
-     * @return array
-     */
-    public function getDefinitionFiles($sMetaDataIdent)
-    {
-        $aDICDefintionFileList = [];
-
-        /** @var ModuleList $oModuleList */
-        $oModuleList = oxNew(ModuleList::class);
-        $aActiveModuleIdList = array_keys($oModuleList->getActiveModuleInfo());
-
-        if (Registry::get(Request::class)->getRequestEscapedParameter('cl') === 'module_main'
-            && ($sCurrentModuleId = Registry::get(Request::class)->getRequestEscapedParameter('oxid'))
-            && false === in_array($sCurrentModuleId, $aActiveModuleIdList)
-        ) {
-            $aActiveModuleIdList[] = $sCurrentModuleId;
-        }
-
-        foreach ($aActiveModuleIdList as $sModuleId) {
-            $oModuleConfiguration = oxNew(d3moduleconfiguration::class);
-            $aDICDefintionFiles = $oModuleConfiguration->getInfo($sMetaDataIdent, $sModuleId);
-            if (isset($aDICDefintionFiles) && is_array($aDICDefintionFiles)) {
-                $aDICDefintionFileList = array_merge($aDICDefintionFileList, $aDICDefintionFiles);
-            }
-        }
-
-        $aBaseServiceIds = array(
-            'd3/modcfg'
-        );
-
-        $aDefFileList = array();
-
-        foreach ($aDICDefintionFileList as $sKey => $sFileName) {
-            foreach ($aBaseServiceIds as $sBaseKey => $sBaseClass) {
-                if (strstr(strtolower($sFileName), strtolower($sBaseClass))) {
-                    $aDefFileList[$sBaseKey] = $sFileName;
-                    unset($aDICDefintionFileList[$sKey]);
-                }
-            }
-        }
-
-        ksort($aDefFileList, SORT_NUMERIC);
-        $aDefFileList = array_merge($aDefFileList, $aDICDefintionFileList);
-
-        return $aDefFileList;
     }
 
     /**
