@@ -27,6 +27,9 @@
   "autoload": {
     "psr-4": {
       "D3\\DIContainerHandler\\": "./"
-    }
+    },
+    "files": [
+      "autoload/functions_oxDIC.php"
+    ]
   }
 }
