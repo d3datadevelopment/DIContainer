@@ -15,6 +15,20 @@ Dieses Paket erfordert einen mit Composer installierten OXID eShop in einer in d
 php composer require d3/oxid-dic-handler:^1.0
 ```
 
+## Verwendung
+
+Um eigene Defintionen dem Container hinzuzufügen, erweitern Sie die Klasse `D3\DIContainerHandler\definitionFileContainer`um folgenden Aufruf:
+
+```
+public function __construct()
+{
+    parent::__construct();
+    $this->addYamlDefinitions('my/plugin/Config/services.yaml');
+}
+```
+
+Leeren Sie anschließend den TMP-Ordner.
+
 ## Changelog
 
 Siehe [CHANGELOG](CHANGELOG.md) für weitere Informationen.

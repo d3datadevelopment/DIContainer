@@ -15,6 +15,20 @@ Open a command line interface and navigate to the shop root directory (parent of
 php composer require d3/oxid-dic-handler:^1.0
 ```
 
+## Usage
+
+To add your own definitions to the container, extend the class `D3\DIContainerHandler\definitionFileContainer` with the following call:
+
+```
+public function __construct()
+{
+    parent::__construct();
+    $this->addYamlDefinitions('my/plugin/Config/services.yaml');
+}
+```
+
+Then empty the TMP folder.
+
 ## Changelog
 
 See [CHANGELOG](CHANGELOG.md) for further informations.
