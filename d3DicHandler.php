@@ -17,6 +17,7 @@ namespace D3\DIContainerHandler;
 
 use d3DIContainerCache;
 use Exception;
+use OxidEsales\Eshop\Core\Config;
 use OxidEsales\Eshop\Core\Registry;
 use OxidEsales\Facts\Config\ConfigFile;
 use Symfony\Component\Config\FileLocator;
@@ -86,7 +87,7 @@ class d3DicHandler implements d3DicHandlerInterface
     }
 
     /**
-     * @return mixed
+     * @return Config
      */
     public function d3GetConfig()
     {
@@ -116,7 +117,7 @@ class d3DicHandler implements d3DicHandlerInterface
         /** @var YamlFileLoader $fileLoader */
         $fileLoader = oxNew(YamlFileLoader::class,
             $container,
-            oxNew(FileLocator::class, $this->d3GetConfig()->getModulesDir())
+            oxNew(FileLocator::class, d3DicUtilities::getVendorDir())
         );
 
         return $fileLoader;
@@ -131,7 +132,7 @@ class d3DicHandler implements d3DicHandlerInterface
 
         $fileContainer = oxNew(definitionFileContainer::class);
         foreach ($fileContainer->getYamlDefinitions() as $file) {
-            $fullPath = $this->d3GetConfig()->getModulesDir().$file;
+            $fullPath = d3DicUtilities::getVendorDir().$file;
             if (is_file($fullPath)) {
                 $loader->load($file);
             }

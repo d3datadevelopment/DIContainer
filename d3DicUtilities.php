@@ -43,4 +43,12 @@ class d3DicUtilities
             $argumentName
         );
     }
+
+    /**
+     * @return string
+     */
+    public static function getVendorDir(): string
+    {
+        return rtrim(dirname(dirname(dirname(__FILE__))), '/').'/';
+    }
 }

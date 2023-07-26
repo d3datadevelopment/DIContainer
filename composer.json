@@ -1,6 +1,6 @@
 {
   "name": "d3/oxid-dic-handler",
-  "description": "An alternative configurable DIContainer outside the OXID own container.",
+  "description": "Provides bridges for OXID services that are not reliably listed in the DIC cache.",
   "type": "library",
   "keywords": [
     "oxid",
