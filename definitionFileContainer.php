@@ -15,15 +15,17 @@ declare(strict_types=1);
 
 namespace D3\DIContainerHandler;
 
+use InvalidArgumentException;
+
 class definitionFileContainer
 {
     public const TYPE_YAML = 'yml';
 
-    protected $definitionFiles = [
+    protected array $definitionFiles = [
         self::TYPE_YAML => []
     ];
 
-    protected $allowedTypes = [
+    protected array $allowedTypes = [
         self::TYPE_YAML
     ];
 
@@ -32,30 +34,49 @@ class definitionFileContainer
         $this->addYamlDefinitions('d3/modcfg/Config/services.yaml');
     }
 
-    public function addDefinitions($definitionFile, $type)
+    /**
+     * @param string $definitionFile
+     * @param string $type
+     *
+     * @return void
+     */
+    public function addDefinitions(string $definitionFile, string $type): void
     {
         if (!in_array($type, $this->allowedTypes)) {
-            throw new \InvalidArgumentException('invalid definition file type');
+            throw new InvalidArgumentException( 'invalid definition file type');
         }
 
         $this->definitionFiles[$type][md5($definitionFile)] = $definitionFile;
     }
 
-    public function addYamlDefinitions($definitionFile)
+    /**
+     * @param string $definitionFile
+     *
+     * @return void
+     */
+    public function addYamlDefinitions(string $definitionFile): void
     {
         $this->addDefinitions($definitionFile, self::TYPE_YAML);
     }
 
-    public function getDefinitions($type)
+    /**
+     * @param string $type
+     *
+     * @return array
+     */
+    public function getDefinitions(string $type): array
     {
         if (!in_array($type, $this->allowedTypes)) {
-            throw new \InvalidArgumentException('invalid definition file type');
+            throw new InvalidArgumentException( 'invalid definition file type');
         }
 
         return $this->definitionFiles[$type];
     }
 
-    public function getYamlDefinitions()
+    /**
+     * @return array
+     */
+    public function getYamlDefinitions(): array
     {
         return $this->getDefinitions(self::TYPE_YAML);
     }
@@ -64,17 +85,17 @@ class definitionFileContainer
      * @param string $definitionFile
      * @return bool
      */
-    public function has($definitionFile): bool
+    public function has(string $definitionFile): bool
     {
         return isset($this->definitionFiles[md5($definitionFile)]);
     }
 
-    public function getAll()
+    public function getAll(): array
     {
         return $this->definitionFiles;
     }
 
-    public function clear()
+    public function clear(): void
     {
         $this->definitionFiles = [];
     }

@@ -14,12 +14,12 @@
 declare(strict_types=1);
 
 use D3\DIContainerHandler\d3DicHandler;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Container;
 
 /**
- * @return   ContainerBuilder
+ * @return   Container
  */
-function d3GetOxidDIC(): ContainerBuilder
+function d3GetOxidDIC(): Container
 {
     return d3DicHandler::getInstance();
 }

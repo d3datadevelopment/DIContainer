@@ -18,11 +18,12 @@ namespace D3\DIContainerHandler;
 class d3DicUtilities
 {
     /**
-     * @param $classNameSpace
-     * @param bool $additional
+     * @param string      $classNameSpace
+     * @param string|null $additional
+     *
      * @return string
      */
-    public static function getServiceId($classNameSpace, $additional = false)
+    public static function getServiceId(string $classNameSpace, ?string $additional = null): string
     {
         return strtolower(
             ($additional ? $additional.'.' : '').
@@ -31,11 +32,12 @@ class d3DicUtilities
     }
 
     /**
-     * @param $classNameSpace
-     * @param $argumentName
+     * @param string $classNamespace
+     * @param string $argumentName
+     *
      * @return string
      */
-    public static function getArgumentId($classNamespace, $argumentName)
+    public static function getArgumentId(string $classNamespace, string $argumentName): string
     {
         return strtolower(
             $classNamespace.
