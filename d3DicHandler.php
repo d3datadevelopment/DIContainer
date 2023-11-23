@@ -127,7 +127,8 @@ class d3DicHandler implements d3DicHandlerInterface
     public function d3GetFileLoader(ContainerBuilder $container): YamlFileLoader
     {
         /** @var YamlFileLoader $fileLoader */
-        $fileLoader = oxNew(YamlFileLoader::class,
+        $fileLoader = oxNew(
+            YamlFileLoader::class,
             $container,
             oxNew(FileLocator::class, d3DicUtilities::getVendorDir())
         );
@@ -161,13 +162,15 @@ class d3DicHandler implements d3DicHandlerInterface
      */
     public function buildContainer(bool $compileAndDump = true): Container
     {
-        if (Registry::get( ConfigFile::class)->getVar( 'iDebug')) startProfile(__METHOD__);
+        if (Registry::get(ConfigFile::class)->getVar('iDebug')) {
+            startProfile(__METHOD__);
+        }
 
         $config = $this->d3GetConfig();
 
-        if ( $config->isProductiveMode()
-             && ! $config->getConfigParam( 'iDebug' )
-            && ( ! defined( 'OXID_PHP_UNIT' ) || defined( 'D3_MODCFG_TEST' ) )
+        if ($config->isProductiveMode()
+             && ! $config->getConfigParam('iDebug')
+            && (! defined('OXID_PHP_UNIT') || defined('D3_MODCFG_TEST'))
             && file_exists($this->d3GetCacheFilePath())
         ) {
             $container = $this->d3GetCacheContainer();
@@ -178,14 +181,16 @@ class d3DicHandler implements d3DicHandlerInterface
             if ($compileAndDump) {
                 $container->compile();
 
-                if ( ! defined( 'OXID_PHP_UNIT' ) ) {
+                if (! defined('OXID_PHP_UNIT')) {
                     $dumper = new PhpDumper($container);
-                    file_put_contents($this->d3GetCacheFilePath(), $dumper->dump(array('class' => 'd3DIContainerCache')));
+                    file_put_contents($this->d3GetCacheFilePath(), $dumper->dump(['class' => 'd3DIContainerCache']));
                 }
             }
         }
 
-        if (Registry::get( ConfigFile::class)->getVar( 'iDebug')) stopProfile(__METHOD__);
+        if (Registry::get(ConfigFile::class)->getVar('iDebug')) {
+            stopProfile(__METHOD__);
+        }
 
         return $container;
     }
@@ -198,10 +203,14 @@ class d3DicHandler implements d3DicHandlerInterface
     /**
      * clone
      */
-    public function __clone() {}
+    public function __clone()
+    {
+    }
 
     /**
      * constructor
      */
-    public function __construct() {}
+    public function __construct()
+    {
+    }
 }

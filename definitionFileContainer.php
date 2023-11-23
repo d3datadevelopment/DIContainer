@@ -22,11 +22,11 @@ class definitionFileContainer
     public const TYPE_YAML = 'yml';
 
     protected array $definitionFiles = [
-        self::TYPE_YAML => []
+        self::TYPE_YAML => [],
     ];
 
     protected array $allowedTypes = [
-        self::TYPE_YAML
+        self::TYPE_YAML,
     ];
 
     public function __construct()
@@ -43,7 +43,7 @@ class definitionFileContainer
     public function addDefinitions(string $definitionFile, string $type): void
     {
         if (!in_array($type, $this->allowedTypes)) {
-            throw new InvalidArgumentException( 'invalid definition file type');
+            throw new InvalidArgumentException('invalid definition file type');
         }
 
         $this->definitionFiles[$type][md5($definitionFile)] = $definitionFile;
@@ -67,7 +67,7 @@ class definitionFileContainer
     public function getDefinitions(string $type): array
     {
         if (!in_array($type, $this->allowedTypes)) {
-            throw new InvalidArgumentException( 'invalid definition file type');
+            throw new InvalidArgumentException('invalid definition file type');
         }
 
         return $this->definitionFiles[$type];
