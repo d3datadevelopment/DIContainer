@@ -16,12 +16,12 @@ declare(strict_types=1);
 namespace D3\DIContainerHandler\tests;
 
 use D3\DIContainerHandler\d3DicHandler;
+use D3\TestingTools\Development\CanAccessRestricted;
 use d3DIContainerCache;
 use Generator;
 use OxidEsales\Eshop\Core\Config;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use ReflectionClass;
 use ReflectionException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
@@ -30,6 +30,8 @@ define('D3_MODCFG_TEST', true);
 
 class d3DicHandlerTest extends TestCase
 {
+    use CanAccessRestricted;
+
     /**
      * @test
      * @return void
@@ -367,93 +369,5 @@ class d3DicHandlerTest extends TestCase
                 'getContainerBuilder'
             )
         );
-    }
-
-    /**************/
-
-
-
-    /**
-     * Calls a private or protected object method.
-     *
-     * @param object $object
-     * @param string $methodName
-     * @param array $arguments
-     *
-     * @return mixed
-     * @throws ReflectionException
-     */
-    public function callMethod($object, $methodName, array $arguments = [])
-    {
-        $class = new ReflectionClass($object);
-        $method = $class->getMethod($methodName);
-        $method->setAccessible(true);
-        return $method->invokeArgs($object, $arguments);
-    }
-
-    /**
-     * Sets a private or protected property in defined class instance
-     *
-     * @param object $object
-     * @param string $valueName
-     * @param mixed $value
-     * @throws ReflectionException
-     */
-    public function setValue($object, $valueName, $value)
-    {
-        $reflection = new ReflectionClass($object);
-        $property = $reflection->getProperty($valueName);
-        $property->setAccessible(true);
-        $property->setValue($object, $value);
-    }
-
-    /**
-     * Sets a private or protected property in mocked class instance based on original class
-     * (required for e.g. final properties, which aren't contained in mock, but in original class)
-     * @param $mockedClassName  * FQNS of original class
-     * @param $object           * mock object
-     * @param $valueName        * property name
-     * @param $value            * new property value
-     *
-     * @throws ReflectionException
-     */
-    public function setMockedClassValue($mockedClassName, $object, $valueName, $value)
-    {
-        $property = new \ReflectionProperty($mockedClassName, $valueName);
-        $property->setAccessible(true);
-        $property->setValue($object, $value);
-    }
-
-    /**
-     * get a private or protected property from defined class instance
-     *
-     * @param object $object
-     * @param string $valueName
-     * @param mixed $value
-     * @return mixed
-     * @throws ReflectionException
-     */
-    public function getValue($object, $valueName)
-    {
-        $reflection = new ReflectionClass($object);
-        $property = $reflection->getProperty($valueName);
-        $property->setAccessible(true);
-        return $property->getValue($object);
-    }
-
-    /**
-     * get a private or protected property from mocked class instance based on original class
-     * (required for e.g. final properties, which aren't contained in mock, but in original class)
-     * @param object $object
-     * @param string $valueName
-     * @param mixed $value
-     * @return mixed
-     * @throws ReflectionException
-     */
-    public function getMockedClassValue($mockedClassName, $object, $valueName)
-    {
-        $property = new \ReflectionProperty($mockedClassName, $valueName);
-        $property->setAccessible(true);
-        return $property->getValue($object);
     }
 }

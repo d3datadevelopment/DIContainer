@@ -26,6 +26,7 @@
     "beberlei/assert": "^3.3"
   },
   "require-dev": {
+    "d3/testingtools": "^1.0",
     "phpunit/phpunit": "^9.6"
   },
   "autoload": {
