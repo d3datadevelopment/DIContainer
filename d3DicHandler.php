@@ -28,13 +28,11 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 class d3DicHandler implements d3DicHandlerInterface
 {
-    /**
-     * instance
-     * @var null|Container
-     */
-    protected static ?Container $_instance = null;
+    protected static Container|null $_instance = null;
 
-    public static array $circularReferenceMethodNames = ['getViewConfig'];
+    public static array $circularReferenceMethodNames = [
+        'getViewConfig'
+    ];
 
     /**
      * get instance
@@ -48,14 +46,12 @@ class d3DicHandler implements d3DicHandlerInterface
         $caller = $trace[1];
         $functionName = $caller['function'];
 
-        if (in_array(strtolower($functionName), array_map('strtolower', self::$circularReferenceMethodNames))) {
-            throw oxNew(
-                Exception::class,
-                'method '.$functionName." can't use DIC due the danger of circular reference"
-            );
+        if (in_array(strtolower($functionName), array_map('strtolower', self::$circularReferenceMethodNames)))
+        {
+            throw oxNew(Exception::class, 'method '.$functionName." can't use DIC due the danger of circular reference");
         }
 
-        if (null === self::$_instance) {
+        if (null == self::$_instance) {
             $oDicHandler = oxNew(d3DicHandler::class);
             self::$_instance = $oDicHandler->buildContainer();
         }
@@ -75,11 +71,9 @@ class d3DicHandler implements d3DicHandlerInterface
         $caller = $trace[1];
         $functionName = $caller['function'];
 
-        if (in_array(strtolower($functionName), array_map('strtolower', self::$circularReferenceMethodNames))) {
-            throw oxNew(
-                Exception::class,
-                'method '.$functionName." can't use DIC due the danger of circular reference"
-            );
+        if (in_array(strtolower($functionName), array_map('strtolower', self::$circularReferenceMethodNames)))
+        {
+            throw oxNew(Exception::class, 'method '.$functionName." can't use DIC due the danger of circular reference");
         }
 
         $oDicHandler = oxNew(d3DicHandler::class);
@@ -103,8 +97,7 @@ class d3DicHandler implements d3DicHandlerInterface
 
     public function d3GetCacheFilePath(): string
     {
-        return $this->d3GetConfig()->getConfigParam('sCompileDir').'/d3DicContainer_'.
-               Registry::getConfig()->getShopId().'.php';
+        return $this->d3GetConfig()->getConfigParam('sCompileDir').'/d3DicContainer_'.Registry::getConfig()->getShopId().'.php';
     }
 
     /**
@@ -113,10 +106,7 @@ class d3DicHandler implements d3DicHandlerInterface
     public function d3GetCacheContainer(): Container
     {
         require_once $this->d3GetCacheFilePath();
-
-        /** @var Container $container */
-        $container = oxNew(d3DIContainerCache::class); /** @phpstan-ignore-line */
-        return $container;
+        return oxNew(d3DIContainerCache::class);
     }
 
     /**
@@ -127,8 +117,7 @@ class d3DicHandler implements d3DicHandlerInterface
     public function d3GetFileLoader(ContainerBuilder $container): YamlFileLoader
     {
         /** @var YamlFileLoader $fileLoader */
-        $fileLoader = oxNew(
-            YamlFileLoader::class,
+        $fileLoader = oxNew(YamlFileLoader::class,
             $container,
             oxNew(FileLocator::class, d3DicUtilities::getVendorDir())
         );
@@ -155,6 +144,22 @@ class d3DicHandler implements d3DicHandlerInterface
     }
 
     /**
+     * @return bool
+     */
+    protected function isNotInTest(): bool
+    {
+        return false == defined('OXID_PHP_UNIT') || true == defined('D3_MODCFG_TEST');
+    }
+
+    /**
+     * @return bool
+     */
+    protected function cacheFileExists(): bool
+    {
+        return file_exists($this->d3GetCacheFilePath());
+    }
+
+    /**
      * @param bool $compileAndDump
      *
      * @return Container
@@ -162,16 +167,14 @@ class d3DicHandler implements d3DicHandlerInterface
      */
     public function buildContainer(bool $compileAndDump = true): Container
     {
-        if (Registry::get(ConfigFile::class)->getVar('iDebug')) {
-            startProfile(__METHOD__);
-        }
+        if ((bool) Registry::get( ConfigFile::class)->getVar( 'iDebug')) startProfile(__METHOD__);
 
         $config = $this->d3GetConfig();
 
-        if ($config->isProductiveMode()
-             && ! $config->getConfigParam('iDebug')
-            && (! defined('OXID_PHP_UNIT') || defined('D3_MODCFG_TEST'))
-            && file_exists($this->d3GetCacheFilePath())
+        if ( $config->isProductiveMode()
+             && ! $config->getConfigParam( 'iDebug' )
+            && $this->isNotInTest()
+            && $this->cacheFileExists()
         ) {
             $container = $this->d3GetCacheContainer();
         } else {
@@ -181,16 +184,14 @@ class d3DicHandler implements d3DicHandlerInterface
             if ($compileAndDump) {
                 $container->compile();
 
-                if (! defined('OXID_PHP_UNIT')) {
+                if ($this->isNotInTest()) {
                     $dumper = new PhpDumper($container);
-                    file_put_contents($this->d3GetCacheFilePath(), $dumper->dump(['class' => 'd3DIContainerCache']));
+                    file_put_contents($this->d3GetCacheFilePath(), $dumper->dump(array('class' => 'd3DIContainerCache')));
                 }
             }
         }
 
-        if (Registry::get(ConfigFile::class)->getVar('iDebug')) {
-            stopProfile(__METHOD__);
-        }
+        if ((bool) Registry::get( ConfigFile::class)->getVar( 'iDebug')) stopProfile(__METHOD__);
 
         return $container;
     }
@@ -203,14 +204,10 @@ class d3DicHandler implements d3DicHandlerInterface
     /**
      * clone
      */
-    public function __clone()
-    {
-    }
+    public function __clone() {}
 
     /**
      * constructor
      */
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 }

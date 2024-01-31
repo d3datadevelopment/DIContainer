@@ -23,7 +23,7 @@ class d3DicUtilities
      *
      * @return string
      */
-    public static function getServiceId(string $classNameSpace, ?string $additional = null): string
+    public static function getServiceId(string $classNameSpace, string $additional = null): string
     {
         return strtolower(
             ($additional ? $additional.'.' : '').
@@ -51,6 +51,6 @@ class d3DicUtilities
      */
     public static function getVendorDir(): string
     {
-        return rtrim(dirname(dirname(dirname(__FILE__))), '/').'/';
+        return rtrim( dirname( __FILE__, 3 ), '/') . '/';
     }
 }

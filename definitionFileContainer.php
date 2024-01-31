@@ -15,60 +15,54 @@ declare(strict_types=1);
 
 namespace D3\DIContainerHandler;
 
-use InvalidArgumentException;
+use Assert\Assert;
+use Assert\InvalidArgumentException;
 
 class definitionFileContainer
 {
     public const TYPE_YAML = 'yml';
 
     protected array $definitionFiles = [
-        self::TYPE_YAML => [],
+        self::TYPE_YAML => []
     ];
 
     protected array $allowedTypes = [
-        self::TYPE_YAML,
+        self::TYPE_YAML
     ];
 
     public function __construct()
     {
-        $this->addYamlDefinitions('d3/modcfg/Config/services.yaml');
     }
 
     /**
-     * @param string $definitionFile
-     * @param string $type
+     * @param $definitionFile
+     * @param $type
+     * @throws InvalidArgumentException
      *
      * @return void
      */
-    public function addDefinitions(string $definitionFile, string $type): void
+    public function addDefinitions($definitionFile, $type): void
     {
-        if (!in_array($type, $this->allowedTypes)) {
-            throw new InvalidArgumentException('invalid definition file type');
-        }
+        Assert::that($type)->inArray($this->allowedTypes, 'invalid definition file type');
+        Assert::that(rtrim(dirname(__FILE__, 3).'/').$definitionFile)->file('invalid definition file');
 
         $this->definitionFiles[$type][md5($definitionFile)] = $definitionFile;
     }
 
-    /**
-     * @param string $definitionFile
-     *
-     * @return void
-     */
-    public function addYamlDefinitions(string $definitionFile): void
+    public function addYamlDefinitions($definitionFile): void
     {
         $this->addDefinitions($definitionFile, self::TYPE_YAML);
     }
 
     /**
-     * @param string $type
+     * @param $type
      *
      * @return array
+     * @throws InvalidArgumentException
      */
-    public function getDefinitions(string $type): array
+    public function getDefinitions($type): array
     {
-        if (!in_array($type, $this->allowedTypes)) {
-            throw new InvalidArgumentException('invalid definition file type');
-        }
+        Assert::that($type)->inArray($this->allowedTypes, 'invalid definition file type');
 
         return $this->definitionFiles[$type];
     }
@@ -82,14 +76,8 @@ class definitionFileContainer
     }
 
     /**
-     * @param string $definitionFile
-     * @return bool
+     * @return array[]
      */
-    public function has(string $definitionFile): bool
-    {
-        return isset($this->definitionFiles[md5($definitionFile)]);
-    }
-
     public function getAll(): array
     {
         return $this->definitionFiles;

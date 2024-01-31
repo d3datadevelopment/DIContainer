@@ -17,10 +17,7 @@ namespace D3\DIContainerHandler;
 
 use Symfony\Component\DependencyInjection\Container;
 
-/**
- * Interface d3DicHandlerInterface
- */
 interface d3DicHandlerInterface
 {
-    public static function getInstance(): ?Container;
+    public static function getInstance(): Container;
 }

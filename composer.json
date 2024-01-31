@@ -22,7 +22,11 @@
     "MIT"
   ],
   "require": {
-    "symfony/dependency-injection": "^3.1|^5.4.11|^6.0"
+    "symfony/dependency-injection": "^3.1|^5.4.11|^6.0",
+    "beberlei/assert": "^3.3"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.6"
   },
   "autoload": {
     "psr-4": {
@@ -31,5 +35,8 @@
     "files": [
       "autoload/functions_oxDIC.php"
     ]
+  },
+  "scripts": {
+    "phpunit": "XDEBUG_MODE=coverage ./vendor/bin/phpunit --bootstrap=source/bootstrap.php --config=vendor/d3/oxid-dic-handler/tests/"
   }
 }
