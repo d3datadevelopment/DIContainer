@@ -29,12 +29,7 @@ class definitionFileContainerTest extends TestCase
     /**
      * @test
      *
-     * @param string $file
-     * @param string $type
-     * @param int    $sumand
-     * @param bool   $expectException
      *
-     * @return void
      * @throws ReflectionException
      * @dataProvider addDefinitionsTestDataProvider
      * @covers       \D3\DIContainerHandler\definitionFileContainer::addDefinitions
@@ -62,9 +57,6 @@ class definitionFileContainerTest extends TestCase
         );
     }
 
-    /**
-     * @return Generator
-     */
     public function addDefinitionsTestDataProvider(): Generator
     {
         yield 'invalid file'    => ['foo.txt', definitionFileContainer::TYPE_YAML, 0, true];
@@ -74,7 +66,6 @@ class definitionFileContainerTest extends TestCase
 
     /**
      * @test
-     * @return void
      * @throws ReflectionException
      * @covers \D3\DIContainerHandler\definitionFileContainer::addYamlDefinitions
      */
@@ -95,10 +86,7 @@ class definitionFileContainerTest extends TestCase
     /**
      * @test
      *
-     * @param string $type
-     * @param bool   $expectException
      *
-     * @return void
      * @throws ReflectionException
      * @covers       \D3\DIContainerHandler\definitionFileContainer::getDefinitions
      * @dataProvider getDefinitionsTestDataProvider
@@ -120,9 +108,6 @@ class definitionFileContainerTest extends TestCase
         $this->assertIsArray($definitions);
     }
 
-    /**
-     * @return Generator
-     */
     public function getDefinitionsTestDataProvider(): Generator
     {
         yield 'type ok' => [definitionFileContainer::TYPE_YAML, false];
@@ -131,7 +116,6 @@ class definitionFileContainerTest extends TestCase
 
     /**
      * @test
-     * @return void
      * @throws ReflectionException
      * @covers \D3\DIContainerHandler\definitionFileContainer::getYamlDefinitions
      */
@@ -150,7 +134,6 @@ class definitionFileContainerTest extends TestCase
 
     /**
      * @test
-     * @return void
      * @throws ReflectionException
      * @covers \D3\DIContainerHandler\definitionFileContainer::getAll
      */
@@ -176,11 +159,10 @@ class definitionFileContainerTest extends TestCase
 
     /**
      * @test
-     * @return void
      * @throws ReflectionException
      * @covers \D3\DIContainerHandler\definitionFileContainer::clear
      */
-    public function clearTest()
+    public function clearTest(): void
     {
         $sut = oxNew(definitionFileContainer::class);
         $sut->addYamlDefinitions('d3/modcfg/Config/services.yaml');

@@ -26,7 +26,6 @@ class functions_oxDICTest extends TestCase
 
     /**
      * @test
-     * @return void
      * @throws Exception
      */
     public function d3GetOxidDICTest(): void

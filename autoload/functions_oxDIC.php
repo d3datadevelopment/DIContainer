@@ -17,7 +17,6 @@ use D3\DIContainerHandler\d3DicHandler;
 use Symfony\Component\DependencyInjection\Container;
 
 /**
- * @return Container
  * @throws Exception
  */
 function d3GetOxidDIC(): Container

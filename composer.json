@@ -29,7 +29,8 @@
     "d3/testingtools": "^1.0",
     "phpunit/phpunit": "^9.6",
     "friendsofphp/php-cs-fixer": "~3.13.0",
-    "phpstan/phpstan": "^1.10"
+    "phpstan/phpstan": "^1.10",
+    "rector/rector": "^0.18.13"
   },
   "autoload": {
     "psr-4": {
@@ -45,6 +46,8 @@
     "phpstan": "./vendor/bin/phpstan --configuration=vendor/d3/oxid-dic-handler/phpstan.neon analyse",
     "phpstan-report": "./vendor/bin/phpstan --configuration=vendor/d3/ordermanager/phpstan.neon analyse --error-format=json > vendor/d3/ordermanager/tests/phpstan.report.json",
 
-    "phpunit": "XDEBUG_MODE=coverage ./vendor/bin/phpunit --bootstrap=source/bootstrap.php --config=vendor/d3/oxid-dic-handler/tests/"
+    "phpunit": "XDEBUG_MODE=coverage ./vendor/bin/phpunit --bootstrap=source/bootstrap.php --config=vendor/d3/oxid-dic-handler/tests/",
+
+    "rector": "./vendor/bin/rector process --dry-run --config ./vendor/d3/oxid-dic-handler/rector.php"
   }
 }

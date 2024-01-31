@@ -18,10 +18,8 @@ namespace D3\DIContainerHandler;
 class d3DicUtilities
 {
     /**
-     * @param string      $classNameSpace
      * @param string|null $additional
      *
-     * @return string
      */
     public static function getServiceId(string $classNameSpace, string $additional = null): string
     {
@@ -31,12 +29,6 @@ class d3DicUtilities
         );
     }
 
-    /**
-     * @param string $classNamespace
-     * @param string $argumentName
-     *
-     * @return string
-     */
     public static function getArgumentId(string $classNamespace, string $argumentName): string
     {
         return strtolower(
@@ -46,9 +38,6 @@ class d3DicUtilities
         );
     }
 
-    /**
-     * @return string
-     */
     public static function getVendorDir(): string
     {
         return rtrim(dirname(__FILE__, 3), '/') . '/';

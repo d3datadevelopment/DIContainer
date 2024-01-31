@@ -34,7 +34,6 @@ class d3DicHandlerTest extends TestCase
 
     /**
      * @test
-     * @return void
      * @throws ReflectionException
      * @covers \D3\DIContainerHandler\d3DicHandler::getInstance
      */
@@ -71,7 +70,6 @@ class d3DicHandlerTest extends TestCase
 
     /**
      * @test
-     * @return void
      * @throws ReflectionException
      * @covers \D3\DIContainerHandler\d3DicHandler::getUncompiledInstance
      */
@@ -94,7 +92,6 @@ class d3DicHandlerTest extends TestCase
 
     /**
      * @test
-     * @return void
      * @throws ReflectionException
      * @covers \D3\DIContainerHandler\d3DicHandler::removeInstance
      */
@@ -123,7 +120,6 @@ class d3DicHandlerTest extends TestCase
 
     /**
      * @test
-     * @return void
      * @throws ReflectionException
      * @covers \D3\DIContainerHandler\d3DicHandler::d3GetConfig
      */
@@ -142,7 +138,6 @@ class d3DicHandlerTest extends TestCase
 
     /**
      * @test
-     * @return void
      * @throws ReflectionException
      * @covers \D3\DIContainerHandler\d3DicHandler::d3GetCacheFilePath
      */
@@ -161,7 +156,6 @@ class d3DicHandlerTest extends TestCase
 
     /**
      * @test
-     * @return void
      * @throws ReflectionException
      * @covers \D3\DIContainerHandler\d3DicHandler::d3GetCacheContainer
      */
@@ -182,7 +176,6 @@ class d3DicHandlerTest extends TestCase
 
     /**
      * @test
-     * @return void
      * @throws ReflectionException
      * @covers \D3\DIContainerHandler\d3DicHandler::d3GetFileLoader
      */
@@ -205,7 +198,6 @@ class d3DicHandlerTest extends TestCase
 
     /**
      * @test
-     * @return void
      * @throws ReflectionException
      * @covers \D3\DIContainerHandler\d3DicHandler::loadFiles
      */
@@ -235,7 +227,6 @@ class d3DicHandlerTest extends TestCase
 
     /**
      * @test
-     * @return void
      * @throws ReflectionException
      * @covers \D3\DIContainerHandler\d3DicHandler::isNotInTest
      */
@@ -252,14 +243,12 @@ class d3DicHandlerTest extends TestCase
     }
 
     /**
-     * @param bool $cacheExist
      * @test
-     * @return void
      * @throws ReflectionException
      * @dataProvider cacheFileExistsTestDataProvider
      * @covers \D3\DIContainerHandler\d3DicHandler::cacheFileExists
      */
-    public function cacheFileExistsTest(bool $cacheExist)
+    public function cacheFileExistsTest(bool $cacheExist): void
     {
         if (!$cacheExist) {
             $sut = $this->getMockBuilder(d3DicHandler::class)
@@ -279,9 +268,6 @@ class d3DicHandlerTest extends TestCase
         );
     }
 
-    /**
-     * @return Generator
-     */
     public function cacheFileExistsTestDataProvider(): Generator
     {
         yield 'cacheExist'  => [true];
@@ -291,13 +277,7 @@ class d3DicHandlerTest extends TestCase
     /**
      * @test
      *
-     * @param bool $productive
-     * @param int  $debug
-     * @param bool $notInTest
-     * @param bool $cacheFileExist
-     * @param bool $cachedContainer
      *
-     * @return void
      * @throws ReflectionException
      * @dataProvider buildContainerTestDataProvider
      * @covers       \D3\DIContainerHandler\d3DicHandler::buildContainer
@@ -335,9 +315,6 @@ class d3DicHandlerTest extends TestCase
         );
     }
 
-    /**
-     * @return Generator
-     */
     public function buildContainerTestDataProvider(): Generator
     {
         yield 'notProductive'       => [false, 0, false, true, false];
@@ -349,7 +326,6 @@ class d3DicHandlerTest extends TestCase
 
     /**
      * @test
-     * @return void
      * @throws ReflectionException
      * @covers \D3\DIContainerHandler\d3DicHandler::getContainerBuilder
      */

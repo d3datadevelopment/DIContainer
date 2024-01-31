@@ -29,11 +29,8 @@ class d3DicUtilitiesTest extends TestCase
     /**
      * @test
      *
-     * @param string      $className
      * @param string|null $additional
-     * @param string      $expected
      *
-     * @return void
      * @throws ReflectionException
      * @covers       \D3\DIContainerHandler\d3DicUtilities::getServiceId
      * @dataProvider getServiceIdTestDataProvider
@@ -61,11 +58,7 @@ class d3DicUtilitiesTest extends TestCase
     /**
      * @test
      *
-     * @param string $className
-     * @param string $argumentName
-     * @param string $expected
      *
-     * @return void
      * @throws ReflectionException
      * @covers       \D3\DIContainerHandler\d3DicUtilities::getArgumentId
      * @dataProvider getArgumentIdTestDataProvider
@@ -91,7 +84,6 @@ class d3DicUtilitiesTest extends TestCase
 
     /**
      * @test
-     * @return void
      * @throws ReflectionException
      * @covers \D3\DIContainerHandler\d3DicUtilities::getVendorDir()
      */

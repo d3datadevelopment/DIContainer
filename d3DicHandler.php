@@ -37,7 +37,6 @@ class d3DicHandler implements d3DicHandlerInterface
     /**
      * get instance
      *
-     * @return Container
      * @throws Exception
      */
     public static function getInstance(): Container
@@ -61,7 +60,6 @@ class d3DicHandler implements d3DicHandlerInterface
     /**
      * get instance
      *
-     * @return Container
      * @throws Exception
      */
     public static function getUncompiledInstance(): Container
@@ -85,9 +83,6 @@ class d3DicHandler implements d3DicHandlerInterface
         self::$_instance = null;
     }
 
-    /**
-     * @return Config
-     */
     public function d3GetConfig(): Config
     {
         return Registry::getConfig();
@@ -98,20 +93,12 @@ class d3DicHandler implements d3DicHandlerInterface
         return $this->d3GetConfig()->getConfigParam('sCompileDir').'/d3DicContainer_'.Registry::getConfig()->getShopId().'.php';
     }
 
-    /**
-     * @return Container
-     */
     public function d3GetCacheContainer(): Container
     {
         require_once $this->d3GetCacheFilePath();
         return oxNew(d3DIContainerCache::class);
     }
 
-    /**
-     * @param ContainerBuilder $container
-     *
-     * @return YamlFileLoader
-     */
     public function d3GetFileLoader(ContainerBuilder $container): YamlFileLoader
     {
         /** @var YamlFileLoader $fileLoader */
@@ -125,8 +112,6 @@ class d3DicHandler implements d3DicHandlerInterface
     }
 
     /**
-     * @param ContainerBuilder $container
-     *
      * @throws Exception
      */
     public function loadFiles(ContainerBuilder $container): void
@@ -142,26 +127,17 @@ class d3DicHandler implements d3DicHandlerInterface
         }
     }
 
-    /**
-     * @return bool
-     */
     protected function isNotInTest(): bool
     {
         return false == defined('OXID_PHP_UNIT') || true == defined('D3_MODCFG_TEST');
     }
 
-    /**
-     * @return bool
-     */
     protected function cacheFileExists(): bool
     {
         return file_exists($this->d3GetCacheFilePath());
     }
 
     /**
-     * @param bool $compileAndDump
-     *
-     * @return Container
      * @throws Exception
      */
     public function buildContainer(bool $compileAndDump = true): Container

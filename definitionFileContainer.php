@@ -34,12 +34,6 @@ class definitionFileContainer
     {
     }
 
-    /**
-     * @param string $definitionFile
-     * @param string $type
-     *
-     * @return void
-     */
     public function addDefinitions(string $definitionFile, string $type): void
     {
         Assert::that($type)->inArray($this->allowedTypes, 'invalid definition file type');
@@ -48,21 +42,11 @@ class definitionFileContainer
         $this->definitionFiles[$type][md5($definitionFile)] = $definitionFile;
     }
 
-    /**
-     * @param string $definitionFile
-     *
-     * @return void
-     */
     public function addYamlDefinitions(string $definitionFile): void
     {
         $this->addDefinitions($definitionFile, self::TYPE_YAML);
     }
 
-    /**
-     * @param string $type
-     *
-     * @return array
-     */
     public function getDefinitions(string $type): array
     {
         Assert::that($type)->inArray($this->allowedTypes, 'invalid definition file type');
@@ -70,9 +54,6 @@ class definitionFileContainer
         return $this->definitionFiles[$type];
     }
 
-    /**
-     * @return array
-     */
     public function getYamlDefinitions(): array
     {
         return $this->getDefinitions(self::TYPE_YAML);
