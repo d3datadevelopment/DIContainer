@@ -267,7 +267,7 @@ class d3DicHandlerTest extends TestCase
             $sut = $this->getMockBuilder(d3DicHandler::class)
                 ->onlyMethods(['d3GetCacheFilePath'])
                 ->getMock();
-            $sut->method( 'd3GetCacheFilePath' )->willReturn( 'foo' );
+            $sut->method('d3GetCacheFilePath')->willReturn('foo');
         } else {
             $sut = new d3DicHandler();
         }
@@ -304,14 +304,14 @@ class d3DicHandlerTest extends TestCase
      * @dataProvider buildContainerTestDataProvider
      * @covers       \D3\DIContainerHandler\d3DicHandler::buildContainer
      */
-    public function buildContainerTest(bool $productive, int $debug, bool $notInTest, bool $cacheFileExist, bool $cachedContainer ): void
+    public function buildContainerTest(bool $productive, int $debug, bool $notInTest, bool $cacheFileExist, bool $cachedContainer): void
     {
         $cachedContainerMock = $this->getMockBuilder(d3DIContainerCache::class)
             ->getMock();
 
         /** @var ContainerBuilder|MockObject $containerBuilderMock */
-        $containerBuilderMock = $this->getMockBuilder( ContainerBuilder::class )->onlyMethods( [ 'compile' ] )->getMock();
-        $containerBuilderMock->expects( $this->exactly( (int) ! $cachedContainer ) )->method( 'compile' );
+        $containerBuilderMock = $this->getMockBuilder(ContainerBuilder::class)->onlyMethods([ 'compile' ])->getMock();
+        $containerBuilderMock->expects($this->exactly((int) ! $cachedContainer))->method('compile');
 
         /** @var Config|MockObject $configMock */
         $configMock = $this->getMockBuilder(Config::class)
@@ -327,8 +327,8 @@ class d3DicHandlerTest extends TestCase
         $sut->method('d3GetConfig')->willReturn($configMock);
         $sut->expects($this->exactly((int) $cachedContainer))->method('d3GetCacheContainer')->willReturn($cachedContainerMock);
         $sut->expects($this->exactly((int) !$cachedContainer))->method('getContainerBuilder')->willReturn($containerBuilderMock);
-        $sut->method('isNotInTest')->willReturn( $notInTest);
-        $sut->method('cacheFileExists')->willReturn( $cacheFileExist);
+        $sut->method('isNotInTest')->willReturn($notInTest);
+        $sut->method('cacheFileExists')->willReturn($cacheFileExist);
 
         $this->assertSame(
             $cachedContainer ? $cachedContainerMock : $containerBuilderMock,

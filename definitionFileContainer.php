@@ -23,11 +23,11 @@ class definitionFileContainer
     public const TYPE_YAML = 'yml';
 
     protected array $definitionFiles = [
-        self::TYPE_YAML => []
+        self::TYPE_YAML => [],
     ];
 
     protected array $allowedTypes = [
-        self::TYPE_YAML
+        self::TYPE_YAML,
     ];
 
     public function __construct()
