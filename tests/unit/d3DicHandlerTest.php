@@ -152,7 +152,7 @@ class d3DicHandlerTest extends TestCase
 
         $this->assertMatchesRegularExpression(
             '/.*?\/tmp\/.*?DicContainer_\d+\.php$/m',
-            $this->callMethod(
+            (string) $this->callMethod(
                 $sut,
                 'd3GetCacheFilePath'
             )
@@ -215,14 +215,12 @@ class d3DicHandlerTest extends TestCase
         $containerBuilderMock = $this->getMockBuilder(ContainerBuilder::class)
             ->getMock();
 
-        /** @var YamlFileLoader|MockObject $fileLoaderMock */
         $fileLoaderMock = $this->getMockBuilder(YamlFileLoader::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['load'])
             ->getMock();
         $fileLoaderMock->expects($this->atLeastOnce())->method('load');
 
-        /** @var d3DicHandler|MockObject $sut */
         $sut = $this->getMockBuilder(d3DicHandler::class)
             ->onlyMethods(['d3GetFileLoader'])
             ->getMock();
@@ -254,15 +252,15 @@ class d3DicHandlerTest extends TestCase
     }
 
     /**
+     * @param bool $cacheExist
      * @test
      * @return void
      * @throws ReflectionException
      * @dataProvider cacheFileExistsTestDataProvider
      * @covers \D3\DIContainerHandler\d3DicHandler::cacheFileExists
      */
-    public function cacheFileExistsTest($cacheExist)
+    public function cacheFileExistsTest(bool $cacheExist)
     {
-        /** @var d3DicHandler|MockObject $sut */
         if (!$cacheExist) {
             $sut = $this->getMockBuilder(d3DicHandler::class)
                 ->onlyMethods(['d3GetCacheFilePath'])
@@ -309,18 +307,15 @@ class d3DicHandlerTest extends TestCase
         $cachedContainerMock = $this->getMockBuilder(d3DIContainerCache::class)
             ->getMock();
 
-        /** @var ContainerBuilder|MockObject $containerBuilderMock */
         $containerBuilderMock = $this->getMockBuilder(ContainerBuilder::class)->onlyMethods([ 'compile' ])->getMock();
         $containerBuilderMock->expects($this->exactly((int) ! $cachedContainer))->method('compile');
 
-        /** @var Config|MockObject $configMock */
         $configMock = $this->getMockBuilder(Config::class)
             ->onlyMethods(['isProductiveMode', 'getConfigParam'])
             ->getMock();
         $configMock->method('isProductiveMode')->willReturn($productive);
         $configMock->method('getConfigParam')->willReturnMap([['iDebug', $debug]]);
 
-        /** @var d3DicHandler|MockObject $sut */
         $sut = $this->getMockBuilder(d3DicHandler::class)
             ->onlyMethods(['d3GetConfig', 'd3GetCacheContainer', 'getContainerBuilder', 'isNotInTest', 'cacheFileExists'])
             ->getMock();

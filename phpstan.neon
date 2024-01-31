@@ -1,11 +1,13 @@
 parameters:
+    bootstrapFiles:
+        - ./tests/classAlias.php
     scanFiles:
         - ../../oxid-esales/oxideshop-ce/source/bootstrap.php
         - ../../oxid-esales/oxideshop-ce/source/oxfunctions.php
         - ../../oxid-esales/oxideshop-ce/source/overridablefunctions.php
     paths:
         - .
-    level: 0
+    level: 8
     phpVersion: 80300
     checkMissingIterableValueType: false
     featureToggles:

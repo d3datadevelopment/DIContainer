@@ -29,17 +29,17 @@ class definitionFileContainerTest extends TestCase
     /**
      * @test
      *
-     * @param      $file
-     * @param      $type
-     * @param      $sumand
-     * @param bool $expectException
+     * @param string $file
+     * @param string $type
+     * @param int    $sumand
+     * @param bool   $expectException
      *
      * @return void
      * @throws ReflectionException
      * @dataProvider addDefinitionsTestDataProvider
      * @covers       \D3\DIContainerHandler\definitionFileContainer::addDefinitions
      */
-    public function addDefinitionsTest($file, $type, $sumand, bool $expectException): void
+    public function addDefinitionsTest(string $file, string $type, int $sumand, bool $expectException): void
     {
         $sut = oxNew(definitionFileContainer::class);
         $sut->clear();
@@ -188,7 +188,7 @@ class definitionFileContainerTest extends TestCase
 
         $this->assertCount(
             0,
-            $this->callMethod(
+            (array) $this->callMethod(
                 $sut,
                 'getAll'
             )

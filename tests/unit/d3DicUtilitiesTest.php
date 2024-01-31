@@ -28,16 +28,17 @@ class d3DicUtilitiesTest extends TestCase
 
     /**
      * @test
+     *
      * @param string      $className
      * @param string|null $additional
-     * @param             $expected
+     * @param string      $expected
      *
      * @return void
      * @throws ReflectionException
-     * @covers \D3\DIContainerHandler\d3DicUtilities::getServiceId
+     * @covers       \D3\DIContainerHandler\d3DicUtilities::getServiceId
      * @dataProvider getServiceIdTestDataProvider
      */
-    public function getServiceIdTest(string $className, string $additional = null, $expected): void
+    public function getServiceIdTest(string $className, string $additional = null, string $expected): void
     {
         $sut = oxNew(d3DicUtilities::class);
 
@@ -60,16 +61,16 @@ class d3DicUtilitiesTest extends TestCase
     /**
      * @test
      *
-     * @param string      $className
-     * @param string      $argumentName
-     * @param             $expected
+     * @param string $className
+     * @param string $argumentName
+     * @param string $expected
      *
      * @return void
      * @throws ReflectionException
      * @covers       \D3\DIContainerHandler\d3DicUtilities::getArgumentId
      * @dataProvider getArgumentIdTestDataProvider
      */
-    public function getArgumentIdTest(string $className, string $argumentName, $expected): void
+    public function getArgumentIdTest(string $className, string $argumentName, string $expected): void
     {
         $sut = oxNew(d3DicUtilities::class);
 
@@ -99,7 +100,7 @@ class d3DicUtilitiesTest extends TestCase
         $sut = oxNew(d3DicUtilities::class);
 
         $this->assertDirectoryExists(
-            $this->callMethod(
+            (string) $this->callMethod(
                 $sut,
                 'getVendorDir'
             )
