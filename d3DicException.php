@@ -13,15 +13,17 @@
 
 declare(strict_types=1);
 
-use D3\DIContainerHandler\d3DicException;
-use D3\DIContainerHandler\d3DicHandler;
-use Symfony\Component\DependencyInjection\Container;
+namespace D3\DIContainerHandler;
 
-/**
- * @return Container
- * @throws d3DicException
- */
-function d3GetOxidDIC(): Container
+use Exception;
+
+class d3DicException extends Exception
 {
-    return d3DicHandler::getInstance();
+    /**
+     * @param Exception $previous
+     */
+    public function __construct(Exception $previous)
+    {
+        parent::__construct($previous->getMessage(), $previous->getCode(), $previous);
+    }
 }

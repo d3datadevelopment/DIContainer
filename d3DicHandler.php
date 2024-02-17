@@ -36,22 +36,26 @@ class d3DicHandler implements d3DicHandlerInterface
 
     /**
      * get instance
-     *
-     * @throws Exception
+     * @return Container
+     * @throws d3DicException
      */
     public static function getInstance(): Container
     {
-        $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
-        $caller = $trace[1];
-        $functionName = $caller['function'];
+        try {
+            $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+            $caller = $trace[1];
+            $functionName = $caller['function'];
 
-        if (in_array(strtolower($functionName), array_map('strtolower', self::$circularReferenceMethodNames))) {
-            throw oxNew(Exception::class, 'method '.$functionName." can't use DIC due the danger of circular reference");
-        }
+            if (in_array(strtolower($functionName), array_map('strtolower', self::$circularReferenceMethodNames))) {
+                throw oxNew(Exception::class, 'method ' . $functionName . " can't use DIC due the danger of circular reference");
+            }
 
-        if (null == self::$_instance) {
-            $oDicHandler = oxNew(d3DicHandler::class);
-            self::$_instance = $oDicHandler->buildContainer();
+            if (null == self::$_instance) {
+                $oDicHandler = oxNew(d3DicHandler::class);
+                self::$_instance = $oDicHandler->buildContainer();
+            }
+        } catch (Exception $exception) {
+            throw new d3DicException($exception);
         }
 
         return self::$_instance;
@@ -59,21 +63,25 @@ class d3DicHandler implements d3DicHandlerInterface
 
     /**
      * get instance
-     *
-     * @throws Exception
+     * @return Container
+     * @throws d3DicException
      */
     public static function getUncompiledInstance(): Container
     {
-        $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
-        $caller = $trace[1];
-        $functionName = $caller['function'];
+        try {
+            $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+            $caller = $trace[1];
+            $functionName = $caller['function'];
 
-        if (in_array(strtolower($functionName), array_map('strtolower', self::$circularReferenceMethodNames))) {
-            throw oxNew(Exception::class, 'method '.$functionName." can't use DIC due the danger of circular reference");
+            if (in_array(strtolower($functionName), array_map('strtolower', self::$circularReferenceMethodNames))) {
+                throw oxNew(Exception::class, 'method '.$functionName." can't use DIC due the danger of circular reference");
+            }
+
+            $oDicHandler = oxNew(d3DicHandler::class);
+            self::$_instance = $oDicHandler->buildContainer(false);
+        } catch (Exception $exception) {
+            throw new d3DicException($exception);
         }
-
-        $oDicHandler = oxNew(d3DicHandler::class);
-        self::$_instance = $oDicHandler->buildContainer(false);
 
         return self::$_instance;
     }
@@ -112,6 +120,8 @@ class d3DicHandler implements d3DicHandlerInterface
     }
 
     /**
+     * @param ContainerBuilder $container
+     * @return void
      * @throws Exception
      */
     public function loadFiles(ContainerBuilder $container): void
@@ -138,11 +148,13 @@ class d3DicHandler implements d3DicHandlerInterface
     }
 
     /**
+     * @param bool $compileAndDump
+     * @return Container
      * @throws Exception
      */
     public function buildContainer(bool $compileAndDump = true): Container
     {
-        if ((bool) Registry::get(ConfigFile::class)->getVar('iDebug')) {
+        if (Registry::get(ConfigFile::class)->getVar('iDebug')) {
             startProfile(__METHOD__);
         }
 
@@ -168,7 +180,7 @@ class d3DicHandler implements d3DicHandlerInterface
             }
         }
 
-        if ((bool) Registry::get(ConfigFile::class)->getVar('iDebug')) {
+        if (Registry::get(ConfigFile::class)->getVar('iDebug')) {
             stopProfile(__METHOD__);
         }
 
