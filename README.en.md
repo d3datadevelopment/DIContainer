@@ -3,11 +3,11 @@
 
 # Dependency Injection Container handler for OXID eShop
 
-Enables the simple use of a class container outside of the OXID DI Services.
+Enables the simple use of a class container outside the OXID DI Services.
 
 ## Install
 
-This package requires an Composer installed OXID eShop as defined in [composer.json](composer.json).
+This package requires a Composer installed OXID eShop as defined in [composer.json](composer.json).
 
 Open a command line interface and navigate to the shop root directory (parent of source and vendor). Execute the following command. Adapt the paths to your environment.
 
@@ -31,7 +31,7 @@ Then empty the TMP folder.
 
 ## Changelog
 
-See [CHANGELOG](CHANGELOG.md) for further informations.
+See [CHANGELOG](CHANGELOG.md) for further information.
 
 ## Contributing
 

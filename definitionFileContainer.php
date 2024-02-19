@@ -16,7 +16,6 @@ declare(strict_types=1);
 namespace D3\DIContainerHandler;
 
 use Assert\Assert;
-use Assert\InvalidArgumentException;
 
 class definitionFileContainer
 {
@@ -32,6 +31,7 @@ class definitionFileContainer
 
     public function __construct()
     {
+        /** keep clear */
     }
 
     public function addDefinitions(string $definitionFile, string $type): void

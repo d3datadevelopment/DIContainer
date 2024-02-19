@@ -35,7 +35,7 @@ class d3DicUtilitiesTest extends TestCase
      * @covers       \D3\DIContainerHandler\d3DicUtilities::getServiceId
      * @dataProvider getServiceIdTestDataProvider
      */
-    public function getServiceIdTest(string $className, string $additional = null, string $expected): void
+    public function getServiceIdTest(string $className, ?string $additional, string $expected): void
     {
         $sut = oxNew(d3DicUtilities::class);
 

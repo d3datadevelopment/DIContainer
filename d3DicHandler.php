@@ -36,7 +36,6 @@ class d3DicHandler implements d3DicHandlerInterface
 
     /**
      * get instance
-     * @return Container
      * @throws d3DicException
      */
     public static function getInstance(): Container
@@ -63,7 +62,6 @@ class d3DicHandler implements d3DicHandlerInterface
 
     /**
      * get instance
-     * @return Container
      * @throws d3DicException
      */
     public static function getUncompiledInstance(): Container
@@ -120,8 +118,6 @@ class d3DicHandler implements d3DicHandlerInterface
     }
 
     /**
-     * @param ContainerBuilder $container
-     * @return void
      * @throws Exception
      */
     public function loadFiles(ContainerBuilder $container): void
@@ -148,8 +144,6 @@ class d3DicHandler implements d3DicHandlerInterface
     }
 
     /**
-     * @param bool $compileAndDump
-     * @return Container
      * @throws Exception
      */
     public function buildContainer(bool $compileAndDump = true): Container
@@ -160,10 +154,10 @@ class d3DicHandler implements d3DicHandlerInterface
 
         $config = $this->d3GetConfig();
 
-        if ($config->isProductiveMode()
-             && ! $config->getConfigParam('iDebug')
-            && $this->isNotInTest()
-            && $this->cacheFileExists()
+        if ($this->isNotInTest() &&
+            $config->isProductiveMode() &&
+            !$config->getConfigParam('iDebug') &&
+            $this->cacheFileExists()
         ) {
             $container = $this->d3GetCacheContainer();
         } else {
@@ -192,17 +186,13 @@ class d3DicHandler implements d3DicHandlerInterface
         return oxNew(ContainerBuilder::class);
     }
 
-    /**
-     * clone
-     */
     public function __clone()
     {
+        /** keep clear */
     }
 
-    /**
-     * constructor
-     */
     public function __construct()
     {
+        /** keep clear */
     }
 }

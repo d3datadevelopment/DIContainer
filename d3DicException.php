@@ -19,9 +19,6 @@ use Exception;
 
 class d3DicException extends Exception
 {
-    /**
-     * @param Exception $previous
-     */
     public function __construct(Exception $previous)
     {
         parent::__construct($previous->getMessage(), $previous->getCode(), $previous);

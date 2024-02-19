@@ -30,6 +30,8 @@ class functions_oxDICTest extends TestCase
      */
     public function d3GetOxidDICTest(): void
     {
+        error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
+
         $this->assertInstanceOf(
             ContainerBuilder::class,
             d3GetOxidDIC()
