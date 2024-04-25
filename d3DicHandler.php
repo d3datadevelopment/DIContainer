@@ -152,13 +152,7 @@ class d3DicHandler implements d3DicHandlerInterface
             startProfile(__METHOD__);
         }
 
-        $config = $this->d3GetConfig();
-
-        if ($this->isNotInTest() &&
-            $config->isProductiveMode() &&
-            !$config->getConfigParam('iDebug') &&
-            $this->cacheFileExists()
-        ) {
+        if ($this->d3UseCachedContainer()) {
             $container = $this->d3GetCacheContainer();
         } else {
             $container = $this->getContainerBuilder();
@@ -179,6 +173,16 @@ class d3DicHandler implements d3DicHandlerInterface
         }
 
         return $container;
+    }
+
+    protected function d3UseCachedContainer(): bool
+    {
+        $config = $this->d3GetConfig();
+
+        return $config->isProductiveMode()
+            && !$config->getConfigParam('iDebug')
+            && $this->isNotInTest()
+            && $this->cacheFileExists();
     }
 
     public function getContainerBuilder(): ContainerBuilder
