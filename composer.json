@@ -47,7 +47,7 @@
     "phpstan-report": "./vendor/bin/phpstan --configuration=vendor/d3/ordermanager/phpstan.neon analyse --error-format=json > vendor/d3/ordermanager/tests/phpstan.report.json",
 
     "phpunit": "XDEBUG_MODE=coverage ./vendor/bin/phpunit --bootstrap=source/bootstrap.php --config=vendor/d3/oxid-dic-handler/tests/",
-    "phpunit-coverage": "XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-text --bootstrap=source/bootstrap.php --config=vendor/d3/oxid-dic-handler/tests/ --coverage-html=vendor/d3/oxid-dic-handler/tests/result/coverage",
+    "phpunit-coverage": "XDEBUG_MODE=coverage ./vendor/bin/phpunit --bootstrap=source/bootstrap.php --config=vendor/d3/oxid-dic-handler/tests/ --coverage-html=vendor/d3/oxid-dic-handler/tests/result/coverage",
 
     "rector": "./vendor/bin/rector process --dry-run --config ./vendor/d3/oxid-dic-handler/rector.php"
   }
