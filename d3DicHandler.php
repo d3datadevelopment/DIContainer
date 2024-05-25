@@ -35,7 +35,7 @@ class d3DicHandler implements d3DicHandlerInterface
     ];
 
     /**
-     * get instance
+     * @return Container
      * @throws d3DicException
      */
     public static function getInstance(): Container
@@ -118,6 +118,8 @@ class d3DicHandler implements d3DicHandlerInterface
     }
 
     /**
+     * @param ContainerBuilder $container
+     * @return void
      * @throws Exception
      */
     public function loadFiles(ContainerBuilder $container): void
@@ -144,6 +146,8 @@ class d3DicHandler implements d3DicHandlerInterface
     }
 
     /**
+     * @param bool $compileAndDump
+     * @return Container
      * @throws Exception
      */
     public function buildContainer(bool $compileAndDump = true): Container

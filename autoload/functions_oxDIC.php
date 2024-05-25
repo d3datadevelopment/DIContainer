@@ -18,9 +18,22 @@ use D3\DIContainerHandler\d3DicHandler;
 use Symfony\Component\DependencyInjection\Container;
 
 /**
+ * @return Container
  * @throws d3DicException
+ */
+function d3GetOxidDIC_withExceptions(): Container
+{
+    return d3DicHandler::getInstance();
+}
+
+/**
+ * @return Container
  */
 function d3GetOxidDIC(): Container
 {
-    return d3DicHandler::getInstance();
+    try {
+        return d3GetOxidDIC_withExceptions();
+    } catch (d3DicException $exception) {
+        trigger_error($exception->getMessage(), E_USER_ERROR);
+    }
 }
