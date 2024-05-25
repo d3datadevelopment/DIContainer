@@ -152,9 +152,7 @@ class d3DicHandler implements d3DicHandlerInterface
      */
     public function buildContainer(bool $compileAndDump = true): Container
     {
-        if (Registry::get(ConfigFile::class)->getVar('iDebug')) {
-            startProfile(__METHOD__);
-        }
+        startProfile(__METHOD__);
 
         if ($this->d3UseCachedContainer()) {
             $container = $this->d3GetCacheContainer();
@@ -172,9 +170,7 @@ class d3DicHandler implements d3DicHandlerInterface
             }
         }
 
-        if (Registry::get(ConfigFile::class)->getVar('iDebug')) {
-            stopProfile(__METHOD__);
-        }
+        stopProfile(__METHOD__);
 
         return $container;
     }
