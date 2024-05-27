@@ -28,6 +28,7 @@ class functions_oxDICTest extends TestCase
     /**
      * @test
      * @throws Exception
+     * @covers ::d3GetOxidDIC_withExceptions()
      */
     public function d3GetOxidDIC_withExceptionsTest(): void
     {
@@ -42,6 +43,7 @@ class functions_oxDICTest extends TestCase
     /**
      * @test
      * @throws Exception
+     * @covers ::d3GetOxidDIC()
      */
     public function d3GetOxidDICTest(): void
     {

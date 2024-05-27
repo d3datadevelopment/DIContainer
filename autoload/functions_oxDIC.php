@@ -33,7 +33,9 @@ function d3GetOxidDIC(): Container
 {
     try {
         return d3GetOxidDIC_withExceptions();
+    // @codeCoverageIgnoreStart
     } catch (d3DicException $exception) {
         trigger_error($exception->getMessage(), E_USER_ERROR);
     }
+    // @codeCoverageIgnoreEnd
 }

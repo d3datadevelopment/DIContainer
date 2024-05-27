@@ -40,24 +40,7 @@ class d3DicHandler implements d3DicHandlerInterface
      */
     public static function getInstance(): Container
     {
-        try {
-            $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
-            $caller = $trace[1];
-            $functionName = $caller['function'];
-
-            if (in_array(strtolower($functionName), array_map('strtolower', self::$circularReferenceMethodNames))) {
-                throw oxNew(Exception::class, 'method ' . $functionName . " can't use DIC due the danger of circular reference");
-            }
-
-            if (null == self::$_instance) {
-                $oDicHandler = oxNew(d3DicHandler::class);
-                self::$_instance = $oDicHandler->buildContainer();
-            }
-        } catch (Exception $exception) {
-            throw new d3DicException($exception);
-        }
-
-        return self::$_instance;
+        return oxNew(d3DicHandler::class)->createInstance();
     }
 
     /**
@@ -66,17 +49,25 @@ class d3DicHandler implements d3DicHandlerInterface
      */
     public static function getUncompiledInstance(): Container
     {
-        try {
-            $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
-            $caller = $trace[1];
-            $functionName = $caller['function'];
+        return oxNew(d3DicHandler::class)->createInstance(false);
+    }
 
+    public static function removeInstance(): void
+    {
+        self::$_instance = null;
+    }
+
+    public function createInstance(bool $compiled = true): Container
+    {
+        try {
+            $functionName = $this->getFunctionNameFromTrace();
             if (in_array(strtolower($functionName), array_map('strtolower', self::$circularReferenceMethodNames))) {
-                throw oxNew(Exception::class, 'method '.$functionName." can't use DIC due the danger of circular reference");
+                throw oxNew(Exception::class, 'method ' . $functionName . " can't use DIC due the danger of circular reference");
             }
 
-            $oDicHandler = oxNew(d3DicHandler::class);
-            self::$_instance = $oDicHandler->buildContainer(false);
+            if (null == self::$_instance) {
+                self::$_instance = $this->buildContainer($compiled);
+            }
         } catch (Exception $exception) {
             throw new d3DicException($exception);
         }
@@ -84,9 +75,11 @@ class d3DicHandler implements d3DicHandlerInterface
         return self::$_instance;
     }
 
-    public static function removeInstance(): void
+    protected function getFunctionNameFromTrace()
     {
-        self::$_instance = null;
+        $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+        $caller = $trace[1];
+        return $caller['function'];
     }
 
     public function d3GetConfig(): Config
@@ -135,11 +128,6 @@ class d3DicHandler implements d3DicHandlerInterface
         }
     }
 
-    protected function isNotInTest(): bool
-    {
-        return false == defined('OXID_PHP_UNIT') || true == defined('D3_MODCFG_TEST');
-    }
-
     protected function cacheFileExists(): bool
     {
         return file_exists($this->d3GetCacheFilePath());
@@ -162,11 +150,8 @@ class d3DicHandler implements d3DicHandlerInterface
 
             if ($compileAndDump) {
                 $container->compile();
-
-                if ($this->isNotInTest()) {
-                    $dumper = new PhpDumper($container);
-                    file_put_contents($this->d3GetCacheFilePath(), $dumper->dump(['class' => 'd3DIContainerCache']));
-                }
+                $dumper = $this->getPhpDumper($container);
+                file_put_contents($this->d3GetCacheFilePath(), $dumper->dump(['class' => 'd3DIContainerCache']));
             }
         }
 
@@ -181,7 +166,6 @@ class d3DicHandler implements d3DicHandlerInterface
 
         return $config->isProductiveMode()
             && !$config->getConfigParam('iDebug')
-            && $this->isNotInTest()
             && $this->cacheFileExists();
     }
 
@@ -190,13 +174,8 @@ class d3DicHandler implements d3DicHandlerInterface
         return oxNew(ContainerBuilder::class);
     }
 
-    public function __clone()
+    public function getPhpDumper(ContainerBuilder $containerBuilder): PhpDumper
     {
-        /** keep clear */
-    }
-
-    public function __construct()
-    {
-        /** keep clear */
+        return new PhpDumper( $containerBuilder);
     }
 }

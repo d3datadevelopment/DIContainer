@@ -29,7 +29,9 @@ class d3DicUtilitiesTest extends TestCase
     /**
      * @test
      *
+     * @param string      $className
      * @param string|null $additional
+     * @param string      $expected
      *
      * @throws ReflectionException
      * @covers       \D3\DIContainerHandler\d3DicUtilities::getServiceId

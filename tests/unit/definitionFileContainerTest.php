@@ -29,10 +29,10 @@ class definitionFileContainerTest extends TestCase
     /**
      * @test
      *
-     *
      * @throws ReflectionException
      * @dataProvider addDefinitionsTestDataProvider
      * @covers       \D3\DIContainerHandler\definitionFileContainer::addDefinitions
+     * @covers       \D3\DIContainerHandler\definitionFileContainer::__construct
      */
     public function addDefinitionsTest(string $file, string $type, int $sumand, bool $expectException): void
     {
