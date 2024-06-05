@@ -421,7 +421,7 @@ class d3DicHandlerTest extends TestCase
     public function canUseCachedContainerDataProvider(): Generator
     {
         yield "not productive"  => [false, 0, true, false];
-        yield 'is debug'        => [true, 1, true, false];
+        yield 'is debug'        => [true, 1, true, true];
         yield 'no cache file'   => [true, 0, false, false];
         yield 'can use cached'  => [true, 0, true, true];
     }

@@ -165,7 +165,7 @@ class d3DicHandler implements d3DicHandlerInterface
         $config = $this->d3GetConfig();
 
         return $config->isProductiveMode()
-            && !$config->getConfigParam('iDebug')
+//            && !$config->getConfigParam('iDebug')
             && $this->cacheFileExists();
     }
 
