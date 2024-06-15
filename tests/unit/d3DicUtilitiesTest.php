@@ -15,7 +15,7 @@
 
 declare(strict_types=1);
 
-namespace D3\DIContainerHandler\tests;
+namespace D3\DIContainerHandler\tests\unit;
 
 use D3\DIContainerHandler\d3DicHandler;
 use D3\DIContainerHandler\d3DicUtilities;

@@ -1,0 +1,35 @@
+{
+  "source": {
+    "directories": [
+      "vendor/d3/oxid-dic-handler"
+    ],
+    "excludes": [
+      ".php-cs-fixer.php",
+      "rector.php",
+      "tests"
+    ]
+  },
+  "timeout": 60,
+  "logs": {
+    "text": "../../../reports/infection/d3DICHandler/infection.log",
+    "html": "../../../reports/infection/d3DICHandler/infection.html",
+    "summary": "../../../reports/infection/d3DICHandler/summary.log",
+    "json": "../../../reports/infection/d3DICHandler/infection-log.json",
+    "perMutator": "../../../reports/infection/d3DICHandler/per-mutator.md",
+    "summaryJson": "../../../reports/infection/d3DICHandler/summary.json"
+  },
+  "tmpDir": "./infection/tmp",
+  "phpUnit": {
+    "configDir": "tests"
+  },
+  "mutators": {
+    "@default": true,
+    "@function_signature": false,
+    "global-ignoreSourceCodeByRegex": [
+      ".*\\sstartProfile\\(.*",
+      ".*\\sstopProfile\\(.*"
+    ]
+  },
+  "testFramework":"phpunit",
+  "bootstrap":"source/bootstrap.php"
+}

@@ -15,7 +15,7 @@
 
 declare(strict_types=1);
 
-namespace D3\DIContainerHandler\tests;
+namespace D3\DIContainerHandler\tests\unit;
 
 use Assert\InvalidArgumentException;
 use D3\DIContainerHandler\definitionFileContainer;

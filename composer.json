@@ -31,7 +31,8 @@
     "friendsofphp/php-cs-fixer": "~3.13.0",
     "phpstan/phpstan": "^1.10",
     "rector/rector": "^0.18.13",
-    "mikey179/vfsstream": "^1.6.8"
+    "mikey179/vfsstream": "^1.6.8",
+    "infection/infection": "^0.29.5"
   },
   "autoload": {
     "psr-4": {
@@ -54,6 +55,8 @@
 
     "phpunit": "XDEBUG_MODE=coverage ./vendor/bin/phpunit --config=vendor/d3/oxid-dic-handler/tests/ --no-coverage",
     "phpunit-coverage": "XDEBUG_MODE=coverage ./vendor/bin/phpunit --config=vendor/d3/oxid-dic-handler/tests/ --coverage-html=reports/phpunit/oxid-dic-handler",
+
+    "infection": "./vendor/bin/infection --configuration=vendor/d3/oxid-dic-handler/infection.json5",
 
     "rector": "./vendor/bin/rector process --dry-run --config ./vendor/d3/oxid-dic-handler/rector.php"
   }
