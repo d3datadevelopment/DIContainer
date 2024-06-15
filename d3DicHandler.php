@@ -1,13 +1,15 @@
 <?php
 
 /**
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * Copyright (c) D3 Data Development (Inh. Thomas Dartsch)
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
  *
  * https://www.d3data.de
  *
  * @copyright (C) D3 Data Development (Inh. Thomas Dartsch)
- * @author    D3 Data Development - Daniel Seifert <support@shopmodule.com>
+ * @author    D3 Data Development - Daniel Seifert <info@shopmodule.com>
  * @link      https://www.oxidmodule.com
  */
 
@@ -19,7 +21,6 @@ use d3DIContainerCache;
 use Exception;
 use OxidEsales\Eshop\Core\Config;
 use OxidEsales\Eshop\Core\Registry;
-use OxidEsales\Facts\Config\ConfigFile;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -176,6 +177,6 @@ class d3DicHandler implements d3DicHandlerInterface
 
     public function getPhpDumper(ContainerBuilder $containerBuilder): PhpDumper
     {
-        return new PhpDumper( $containerBuilder);
+        return new PhpDumper($containerBuilder);
     }
 }

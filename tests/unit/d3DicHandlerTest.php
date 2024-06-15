@@ -1,13 +1,15 @@
 <?php
 
 /**
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * Copyright (c) D3 Data Development (Inh. Thomas Dartsch)
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
  *
  * https://www.d3data.de
  *
  * @copyright (C) D3 Data Development (Inh. Thomas Dartsch)
- * @author    D3 Data Development - Daniel Seifert <support@shopmodule.com>
+ * @author    D3 Data Development - Daniel Seifert <info@shopmodule.com>
  * @link      https://www.oxidmodule.com
  */
 
@@ -39,7 +41,7 @@ class d3DicHandlerTest extends TestCase
     {
         parent::setUp();
 
-         d3DicHandler::removeInstance();
+        d3DicHandler::removeInstance();
     }
 
     /**
@@ -145,12 +147,14 @@ class d3DicHandlerTest extends TestCase
         $sut = $this->getMockBuilder(d3DicHandler::class)
             ->onlyMethods(['buildContainer', 'getFunctionNameFromTrace'])
             ->getMock();
-        if ($throwException)
-            $sut->method( 'buildContainer' )->willThrowException( new Exception( 'fixture' ) );
+        if ($throwException) {
+            $sut->method('buildContainer')->willThrowException(new Exception('fixture'));
+        }
 
         $sut->method('getFunctionNameFromTrace')->willReturn($circularReferenceMethod);
-        if ($expectException)
+        if ($expectException) {
             $this->expectException(d3DicException::class);
+        }
 
         $this->callMethod(
             $sut,
@@ -400,7 +404,7 @@ class d3DicHandlerTest extends TestCase
             ->onlyMethods(['isProductiveMode', 'getConfigParam'])
             ->getMock();
         $configMock->method('isProductiveMode')->willReturn($productive);
-        $configMock->method('getConfigParam')->willReturnMap([['iDebug', NULL, $debug]]);
+        $configMock->method('getConfigParam')->willReturnMap([['iDebug', null, $debug]]);
 
         /** @var d3DicHandler|MockObject $sut */
         $sut = $this->getMockBuilder(d3DicHandler::class)
