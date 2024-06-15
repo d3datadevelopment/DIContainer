@@ -90,16 +90,30 @@ class d3DicUtilitiesTest extends TestCase
      * @test
      * @throws ReflectionException
      * @covers \D3\DIContainerHandler\d3DicUtilities::getVendorDir()
+     * @dataProvider getVendorDirTestDataProvider
      */
-    public function getVendorDirTest(): void
+    public function getVendorDirTest(string $path): void
     {
         $sut = oxNew(d3DicUtilities::class);
 
+        $vendorDir = (string) $this->callMethod(
+            $sut,
+            'getVendorDir',
+            [$path]
+        );
+
+        $this->assertSame('/var/www/html/vendor/', $vendorDir);
         $this->assertDirectoryExists(
-            (string) $this->callMethod(
+            $this->callMethod(
                 $sut,
                 'getVendorDir'
             )
         );
+    }
+
+    public function getVendorDirTestDataProvider(): Generator
+    {
+        yield 'default' => ['/var/www/html/vendor/d3/oxid-dic-handler/d3DicUtilities.php'];
+        yield 'space after' => ['/var/www/html/vendor/d3/oxid-dic-handler/d3DicUtilities.php '];
     }
 }

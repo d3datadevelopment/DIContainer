@@ -39,7 +39,7 @@ class definitionFileContainer
     public function addDefinitions(string $definitionFile, string $type): void
     {
         Assert::that($type)->inArray($this->allowedTypes, 'invalid definition file type');
-        Assert::that(rtrim(dirname(__FILE__, 3).'/').$definitionFile)->file('invalid definition file');
+        Assert::that(dirname(__FILE__, 3).'/'.$definitionFile)->file('invalid definition file');
 
         $this->definitionFiles[$type][md5($definitionFile)] = $definitionFile;
     }

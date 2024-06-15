@@ -132,16 +132,16 @@ class d3DicHandlerTest extends TestCase
 
     /**
      * @test
-     * @param bool   $throwException
-     * @param bool   $expectException
+     * @param bool $throwException
+     * @param bool $expectException
      * @param string $circularReferenceMethod
-     *
+     * @param string $expectedExceptionMessage
      * @return void
      * @throws ReflectionException
-     * @covers \D3\DIContainerHandler\d3DicHandler::createInstance
+     * @covers       \D3\DIContainerHandler\d3DicHandler::createInstance
      * @dataProvider canCreateInstanceDataProvider
      */
-    public function canCreateInstance(bool $throwException, bool $expectException, string $circularReferenceMethod = '')
+    public function canCreateInstance(bool $throwException, bool $expectException, string $circularReferenceMethod = '', string $expectedExceptionMessage = ''): void
     {
         /** @var d3DicHandler|MockObject $sut */
         $sut = $this->getMockBuilder(d3DicHandler::class)
@@ -154,6 +154,7 @@ class d3DicHandlerTest extends TestCase
         $sut->method('getFunctionNameFromTrace')->willReturn($circularReferenceMethod);
         if ($expectException) {
             $this->expectException(d3DicException::class);
+            $this->expectExceptionMessage($expectedExceptionMessage);
         }
 
         $this->callMethod(
@@ -165,8 +166,8 @@ class d3DicHandlerTest extends TestCase
     public function canCreateInstanceDataProvider(): Generator
     {
         yield "don't throw exception" => [false, false];
-        yield "throw exception" => [true, true];
-        yield "has circular reference method name" => [false, true, 'getViewConfig'];
+        yield "throw exception" => [true, true, '', 'fixture'];
+        yield "has circular reference method name" => [false, true, 'getViewConfig', 'method getViewConfig can\'t use DIC due the danger of circular reference'];
     }
 
     /**
@@ -334,13 +335,13 @@ class d3DicHandlerTest extends TestCase
      * @test
      * @param bool $useCacheContainer
      * @param bool $compile
-     *
+     * @param bool $useDefault
      * @return void
      * @throws ReflectionException
      * @dataProvider buildContainerTestDataProvider
      * @covers       \D3\DIContainerHandler\d3DicHandler::buildContainer
      */
-    public function buildContainerTest(bool $useCacheContainer, bool $compile): void
+    public function buildContainerTest(bool $useCacheContainer, bool $compile, bool $useDefault = false): void
     {
         $structure = [
             'source_directory'  => [],
@@ -356,26 +357,46 @@ class d3DicHandlerTest extends TestCase
             ->disableOriginalConstructor()
             ->onlyMethods(get_class_methods(PhpDumper::class))
             ->getMock();
-        $phpDumperMock->expects($this->exactly((int) (!$useCacheContainer && $compile)))->method('dump');
+        $phpDumperMock->expects($this->exactly((int) (!$useCacheContainer && $compile)))->method('dump')->willReturn('fixture');
 
         /** @var d3DicHandler|MockObject $sut */
         $sut = $this->getMockBuilder(d3DicHandler::class)
-            ->onlyMethods(['d3UseCachedContainer', 'd3GetCacheContainer', 'getContainerBuilder', 'd3GetCacheFilePath', 'getPhpDumper'])
+            ->onlyMethods(
+                [
+                    'd3UseCachedContainer', 'd3GetCacheContainer', 'getContainerBuilder',
+                    'loadFiles','d3GetCacheFilePath', 'getPhpDumper'
+                ])
             ->getMock();
         $sut->expects($this->once())->method('d3UseCachedContainer')->willReturn($useCacheContainer);
         $sut->expects($this->exactly((int) $useCacheContainer))->method('d3GetCacheContainer');
         $sut->expects($this->exactly((int) !$useCacheContainer))->method('getContainerBuilder')->willReturn($containerBuilderMock);
+        $sut->expects($this->exactly((int) !$useCacheContainer))->method('loadFiles');
         $sut->method('d3GetCacheFilePath')->willReturn($fsRoot->getChild('source_directory')->url().'/DIContainer.php');
         $sut->method('getPhpDumper')->willReturn($phpDumperMock);
 
-        $this->assertInstanceOf(
-            Container::class,
-            $this->callMethod(
-                $sut,
-                'buildContainer',
-                [$compile]
-            )
-        );
+        $useDefault ?
+            $this->assertInstanceOf(
+                Container::class,
+                $this->callMethod(
+                    $sut,
+                    'buildContainer'
+                )
+            ):
+            $this->assertInstanceOf(
+                Container::class,
+                $this->callMethod(
+                    $sut,
+                    'buildContainer',
+                    [$compile]
+                )
+            );
+
+        if (!$useCacheContainer && $compile) {
+            $this->assertSame(
+                'fixture',
+                file_get_contents($fsRoot->getChild('source_directory')->url() . '/DIContainer.php')
+            );
+        }
     }
 
     public function buildContainerTestDataProvider(): Generator
@@ -383,6 +404,7 @@ class d3DicHandlerTest extends TestCase
         yield "can't use cached container, do compile"      => [false, true];
         yield "can't use cached container, don't compile"   => [false, false];
         yield "use cached container"                        => [true, false];
+        yield "can't use cached container, do compile, default" => [false, true, true];
     }
 
     /**

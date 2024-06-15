@@ -40,8 +40,8 @@ class d3DicUtilities
         );
     }
 
-    public static function getVendorDir(): string
+    public static function getVendorDir($current = __FILE__): string
     {
-        return rtrim(dirname(__FILE__, 3), '/') . '/';
+        return dirname($current, 3). '/';
     }
 }
