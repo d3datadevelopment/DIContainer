@@ -365,7 +365,7 @@ class d3DicHandlerTest extends TestCase
         $sut->expects($this->once())->method('d3UseCachedContainer')->willReturn($useCacheContainer);
         $sut->expects($this->exactly((int) $useCacheContainer))->method('d3GetCacheContainer');
         $sut->expects($this->exactly((int) !$useCacheContainer))->method('getContainerBuilder')->willReturn($containerBuilderMock);
-        $sut->method('d3GetCacheFilePath')->willReturn($fsRoot->getChild('source_directory')->path().'/DIContainer.php');
+        $sut->method('d3GetCacheFilePath')->willReturn($fsRoot->getChild('source_directory')->url().'/DIContainer.php');
         $sut->method('getPhpDumper')->willReturn($phpDumperMock);
 
         $this->assertInstanceOf(
