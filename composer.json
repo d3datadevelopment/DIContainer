@@ -55,6 +55,7 @@
 
     "phpunit": "XDEBUG_MODE=coverage ./vendor/bin/phpunit --config=vendor/d3/oxid-dic-handler/tests/ --no-coverage",
     "phpunit-coverage": "XDEBUG_MODE=coverage ./vendor/bin/phpunit --config=vendor/d3/oxid-dic-handler/tests/ --coverage-html=reports/phpunit/oxid-dic-handler",
+    "phpunit-path-coverage": "XDEBUG_MODE=coverage ./vendor/bin/phpunit --config=vendor/d3/oxid-dic-handler/tests/ --coverage-html=reports/phpunit/oxid-dic-handler --path-coverage",
 
     "infection": "./vendor/bin/infection --configuration=vendor/d3/oxid-dic-handler/infection.json5",
 
