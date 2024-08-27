@@ -50,6 +50,7 @@ class d3DicHandler implements d3DicHandlerInterface
      */
     public static function getUncompiledInstance(): Container
     {
+        if (self::$_instance !== null && self::$_instance->isCompiled()) {self::removeInstance();}
         return oxNew(d3DicHandler::class)->createInstance(false);
     }
 

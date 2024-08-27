@@ -89,6 +89,7 @@ class d3DicHandlerTest extends TestCase
     {
         $sut = new d3DicHandler();
 
+        // test new instance
         $containerBuilder = $this->callMethod(
             $sut,
             'getUncompiledInstance'
@@ -99,6 +100,22 @@ class d3DicHandlerTest extends TestCase
             $containerBuilder
         );
 
+        $this->assertFalse($containerBuilder->isCompiled());
+
+        // test if compiled instance is getting resetted
+        $this->callMethod(
+            $sut,
+            'removeInstance'
+        );
+        $this->callMethod(
+            $sut,
+            'getInstance'
+        );
+
+        $containerBuilder = $this->callMethod(
+            $sut,
+            'getUncompiledInstance'
+        );
         $this->assertFalse($containerBuilder->isCompiled());
     }
 
