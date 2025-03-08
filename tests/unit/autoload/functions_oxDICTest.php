@@ -17,11 +17,10 @@ declare(strict_types=1);
 
 namespace D3\DIContainerHandler\tests\unit\autoload;
 
-use D3\DIContainerHandler\d3DicException;
 use D3\TestingTools\Development\CanAccessRestricted;
 use Exception;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Container;
 
 class functions_oxDICTest extends TestCase
 {
@@ -37,7 +36,7 @@ class functions_oxDICTest extends TestCase
         error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
 
         $this->assertInstanceOf(
-            ContainerBuilder::class,
+            Container::class,
             d3GetOxidDIC_withExceptions()
         );
     }
@@ -52,7 +51,7 @@ class functions_oxDICTest extends TestCase
         error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
 
         $this->assertInstanceOf(
-            ContainerBuilder::class,
+            Container::class,
             d3GetOxidDIC()
         );
     }

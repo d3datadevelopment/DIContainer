@@ -144,7 +144,7 @@ class d3DicHandler implements d3DicHandlerInterface
     {
         startProfile(__METHOD__);
 
-        if ($this->d3UseCachedContainer()) {
+        if ($this->d3UseCachedContainer() && $compileAndDump) {
             $container = $this->d3GetCacheContainer();
         } else {
             $container = $this->getContainerBuilder();
@@ -166,9 +166,9 @@ class d3DicHandler implements d3DicHandlerInterface
     {
         $config = $this->d3GetConfig();
 
-        return $config->isProductiveMode()
-//            && !$config->getConfigParam('iDebug')
-            && $this->cacheFileExists();
+        return // $config->isProductiveMode() &&
+//          !$config->getConfigParam('iDebug') &&
+            $this->cacheFileExists();
     }
 
     public function getContainerBuilder(): ContainerBuilder

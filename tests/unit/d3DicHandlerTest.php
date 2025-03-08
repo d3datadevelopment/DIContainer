@@ -59,25 +59,25 @@ class d3DicHandlerTest extends TestCase
             null
         );
 
-        $containerBuilder = $this->callMethod(
+        $container = $this->callMethod(
             $sut,
             'getInstance'
         );
 
         $this->assertInstanceOf(
-            ContainerBuilder::class,
-            $containerBuilder
+            Container::class,
+            $container
         );
 
         $this->assertSame(
-            $containerBuilder,
+            $container,
             $this->callMethod(
                 $sut,
                 'getInstance'
             )
         );
 
-        $this->assertTrue($containerBuilder->isCompiled());
+        $this->assertTrue($container->isCompiled());
     }
 
     /**
@@ -90,17 +90,17 @@ class d3DicHandlerTest extends TestCase
         $sut = new d3DicHandler();
 
         // test new instance
-        $containerBuilder = $this->callMethod(
+        $container = $this->callMethod(
             $sut,
             'getUncompiledInstance'
         );
 
         $this->assertInstanceOf(
-            ContainerBuilder::class,
-            $containerBuilder
+            Container::class,
+            $container
         );
 
-        $this->assertFalse($containerBuilder->isCompiled());
+        $this->assertFalse($container->isCompiled());
 
         // test if compiled instance is getting resetted
         $this->callMethod(
@@ -112,11 +112,11 @@ class d3DicHandlerTest extends TestCase
             'getInstance'
         );
 
-        $containerBuilder = $this->callMethod(
+        $container = $this->callMethod(
             $sut,
             'getUncompiledInstance'
         );
-        $this->assertFalse($containerBuilder->isCompiled());
+        $this->assertFalse($container->isCompiled());
     }
 
     /**
@@ -420,7 +420,7 @@ class d3DicHandlerTest extends TestCase
     {
         yield "can't use cached container, do compile"      => [false, true];
         yield "can't use cached container, don't compile"   => [false, false];
-        yield "use cached container"                        => [true, false];
+        yield "use cached container"                        => [true, true];
         yield "can't use cached container, do compile, default" => [false, true, true];
     }
 
@@ -463,7 +463,7 @@ class d3DicHandlerTest extends TestCase
 
     public function canUseCachedContainerDataProvider(): Generator
     {
-        yield "not productive"  => [false, 0, true, false];
+        yield "not productive"  => [false, 0, true, true];
         yield 'is debug'        => [true, 1, true, true];
         yield 'no cache file'   => [true, 0, false, false];
         yield 'can use cached'  => [true, 0, true, true];
